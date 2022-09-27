@@ -14,14 +14,27 @@ use App\Http\Controllers\CalendarController;
 |
 */
 
-Route::resource('calendar', CalendarController::class);
+Route::group(
+    ['middleware' => 'auth'],
+    function () {
+        Route::get('/calendar/mypage', [CalendarController::class, 'mydata'])->name('calendar.mypage');
+        Route::resource('calendar', CalendarController::class);
+        Route::get('/sa/{clickdate}', [\App\Http\Controllers\Calendar\IndexCotroller::class, 'show'])->name('calendar.spindex');
+    }
+);
+
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+
+    return view('dashboard', ["da" => "2022-09"]);
 })->middleware(['auth'])->name('dashboard');
 
+Route::POST('/dashboard', function () {
+
+    return view('dashboard', ["da" => $_POST['Mo']]);
+})->middleware(['auth']);
 require __DIR__ . '/auth.php';

@@ -17,4 +17,8 @@ class Calendar extends Model
     {
         return self::orderBy('date', 'asc')->get();
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

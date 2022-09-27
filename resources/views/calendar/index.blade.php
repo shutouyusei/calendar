@@ -13,14 +13,22 @@
             <thead>
             </thead>
             <tbody>
+              <tr class="hover:bg-grey-lighter">
+                <td class="py-4 px-6 border-b border-grey-light">
+                  <a href="http://localhost/calendar/create" class="text-left text-grey-dark">予定を追加</p>
+                </td>
+              </tr>
               @foreach ($schedules as $schedule)
               <tr class="hover:bg-grey-lighter">
                 <td class="py-4 px-6 border-b border-grey-light">
+                  <p class="text-left text-grey-dark">{{$schedule->user->name}}</p>
                     <a href="{{ route('calendar.show',$schedule->id) }}">
                     <h3 class=" text-left font-bold text-lg text-grey-dark">{{$schedule->date}}</h3>
                   <h3 class="text-left font-bold text-lg text-grey-dark">{{$schedule->title}}</h3>
                     </a>               
                     <div class="flex">
+                      <!-- 🔽 条件分岐でログインしているユーザが投稿したtweetのみ編集ボタンと削除ボタンが表示される -->
+                    @if ($schedule->user_id === Auth::user()->id)
                     <!-- 更新ボタン -->
                     <form action="{{ route('calendar.edit',$schedule->id) }}" method="GET" class="text-left">
                       @csrf
@@ -40,6 +48,7 @@
                         </svg>
                       </button>
                     </form>
+                    @endif
                   </div>
                 </td>
               </tr>

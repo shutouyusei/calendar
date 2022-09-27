@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('カレンダー') }}
                     </x-nav-link>
                 </div>
                  <!-- 🔽 一覧ページへのリンクを追加 -->
@@ -28,6 +28,12 @@
                         {{ __('予定を追加') }}
                     </x-nav-link>
                 </div>
+                <!-- 🔽 マイページへのリンクを追加 -->
+        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+          <x-nav-link :href="route('calendar.mypage')" :active="request()->routeIs('tweet.mypage')">
+            {{ __('Mypage') }}
+          </x-nav-link>
+           </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -76,7 +82,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('カレンダー') }}
             </x-responsive-nav-link>
         </div>
             <!-- 🔽 一覧ページへのリンクを追加 -->
@@ -91,6 +97,12 @@
             {{ __('予定を追加') }}
         </x-responsive-nav-link>
         </div>
+        <!-- 🔽 マイページへのリンクを追加 -->
+    <div class="pt-2 pb-3 space-y-1">
+      <x-responsive-nav-link :href="route('calendar.mypage')" :active="request()->routeIs('tweet.mypage')">
+        {{ __('Mypage') }}
+      </x-responsive-nav-link>
+    </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">

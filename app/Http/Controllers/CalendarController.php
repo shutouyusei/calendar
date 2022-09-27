@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Calendar;
 use Illuminate\Console\Scheduling\Schedule;
+use Auth;
+use App\Models\User;
 
 class CalendarController extends Controller
 {
@@ -49,7 +51,8 @@ class CalendarController extends Controller
                 ->withInput()
                 ->withErrors($validator);
         }
-        $result = Calendar::create($request->all());
+        $data = $request->merge(['user_id' => Auth::user()->id])->all();
+        $result = Calendar::create($data);
         // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
         return redirect()->route('calendar.index');
     }
@@ -100,5 +103,14 @@ class CalendarController extends Controller
     {
         $result = Calendar::find($id)->delete();
         return redirect()->route('calendar.index');
+    }
+    public function mydata()
+    {
+        $schedules = User::query()
+            ->find(Auth::user()->id)
+            ->userCalendars()
+            ->orderBy('date', 'asc')
+            ->get();
+        return view('calendar.index', compact('schedules'));
     }
 }

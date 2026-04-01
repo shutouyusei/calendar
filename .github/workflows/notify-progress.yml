@@ -1,0 +1,23 @@
+name: Notify Task Progress
+
+on:
+  push:
+    branches:
+      - 'task/**'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          ISSUE_NUMBER="${BRANCH#task/}"
+          COMMIT_MSG=$(echo '${{ github.event.head_commit.message }}' | head -1)
+          COMMIT_URL="${{ github.event.head_commit.url }}"
+
+          curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\": \"📝 Task #${ISSUE_NUMBER} progress\\nCommit: ${COMMIT_MSG}\\n${COMMIT_URL}\"}"

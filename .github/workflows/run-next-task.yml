@@ -1,0 +1,56 @@
+name: Run Next Task on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  run-next:
+    if: github.event.pull_request.merged == true
+    runs-on: [self-hosted, claude]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find and run next task
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR_BODY="${{ github.event.pull_request.body }}"
+          CLOSED_ISSUE=$(echo "$PR_BODY" | grep -oP 'Closes #\K[0-9]+' | head -1)
+
+          if [ -z "$CLOSED_ISSUE" ]; then
+            echo "No linked issue found in PR body. Skipping."
+            exit 0
+          fi
+
+          echo "PR merged for Issue #$CLOSED_ISSUE"
+
+          NEXT_ISSUES=$(gh issue list --label "auto-task" --state open --json number,body -q \
+            ".[] | select(.body | test(\"#$CLOSED_ISSUE must be completed\")) | .number")
+
+          if [ -z "$NEXT_ISSUES" ]; then
+            echo "No dependent tasks found."
+            exit 0
+          fi
+
+          for NEXT in $NEXT_ISSUES; do
+            DEPS=$(gh issue view "$NEXT" --json body -q '.body' | grep -oP '#\K[0-9]+(?= must be completed)' || true)
+            ALL_RESOLVED=true
+
+            for DEP in $DEPS; do
+              STATE=$(gh issue view "$DEP" --json state -q '.state')
+              if [ "$STATE" != "CLOSED" ]; then
+                echo "Issue #$NEXT still blocked by #$DEP ($STATE)"
+                ALL_RESOLVED=false
+                break
+              fi
+            done
+
+            if [ "$ALL_RESOLVED" = true ]; then
+              echo "All dependencies resolved for #$NEXT. Starting execution."
+              ~/.claude/scripts/run-task.sh "$NEXT"
+            fi
+          done

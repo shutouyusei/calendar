@@ -1,0 +1,25 @@
+name: Resume Task on Issue Comment
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  resume:
+    if: |
+      !github.event.issue.pull_request &&
+      contains(github.event.issue.labels.*.name, 'auto-task') &&
+      github.event.comment.user.login == github.repository_owner
+    runs-on: [self-hosted, claude]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Execute task
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          echo "Resuming task #$ISSUE_NUMBER"
+          ~/.claude/scripts/run-task.sh "$ISSUE_NUMBER"

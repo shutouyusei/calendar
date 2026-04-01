@@ -7,7 +7,6 @@ use Validator;
 use App\Models\Calendar;
 use Illuminate\Console\Scheduling\Schedule;
 use Auth;
-use App\Models\User;
 
 class CalendarController extends Controller
 {
@@ -18,7 +17,7 @@ class CalendarController extends Controller
      */
     public function index()
     {
-        $schedules = Calendar::getAllOrderByUpdated_at();
+        $schedules = Calendar::getAllOrderByDate();
         return view('calendar.index', compact('schedules'));
     }
 
@@ -112,9 +111,7 @@ class CalendarController extends Controller
     }
     public function mydata()
     {
-        $schedules = User::query()
-            ->find(Auth::user()->id)
-            ->userCalendars()
+        $schedules = Calendar::byUser(Auth::user()->id)
             ->orderBy('date', 'asc')
             ->get();
         return view('calendar.index', compact('schedules'));

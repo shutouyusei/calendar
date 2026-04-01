@@ -11,9 +11,7 @@ class IndexCotroller extends Controller
 {
     public function show($clickdate)
     {
-        $schedules = Calendar::query()
-            ->where('date', "{$clickdate}")
-            ->get();
+        $schedules = Calendar::forDate($clickdate)->get();
         return view('calendar.index', compact('schedules'));
     }
 }

@@ -7,7 +7,6 @@ use Validator;
 use App\Models\Calendar;
 use Illuminate\Console\Scheduling\Schedule;
 use Auth;
-use App\Models\User;
 
 class CalendarController extends Controller
 {

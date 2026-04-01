@@ -90,7 +90,26 @@ class CalendarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'date' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('calendar.edit', $id)
+                ->withInput()
+                ->withErrors($validator);
+        }
+
+        $schedule = Calendar::find($id);
+        $schedule->date = $request->input('date');
+        $schedule->title = $request->input('title');
+        $schedule->description = $request->input('description');
+        $schedule->save();
+
+        return redirect()->route('calendar.index')->with('success', '予定を更新しました');
     }
 
     /**

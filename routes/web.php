@@ -19,7 +19,7 @@ Route::group(
     function () {
         Route::get('/calendar/mypage', [CalendarController::class, 'mydata'])->name('calendar.mypage');
         Route::resource('calendar', CalendarController::class);
-        Route::get('/sa/{clickdate}', [\App\Http\Controllers\Calendar\IndexCotroller::class, 'show'])->name('calendar.spindex');
+        Route::get('/sa/{clickdate}', [\App\Http\Controllers\Calendar\IndexController::class, 'show'])->name('calendar.spindex');
     }
 );
 

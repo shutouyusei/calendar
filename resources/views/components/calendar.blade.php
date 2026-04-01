@@ -56,9 +56,9 @@
                     if($da<10){$da="0".$da;}
                     $clickdate=$date."-".$da;
                 if(DB::table('calendars')->where('date','=', $clickdate)->count()>0){
-                          echo "<td class='bg-red-500'><a href=http://localhost/sa/{$clickdate}>{$dat}</a></td>";
+                          echo "<td class='bg-red-500'><a href=" . route('calendar.spindex', $clickdate) . ">{$dat}</a></td>";
                      }
-                else{echo "<td><a href=http://localhost/sa/{$clickdate}>{$dat}</a></td>";}}
+                else{echo "<td><a href=" . route('calendar.spindex', $clickdate) . ">{$dat}</a></td>";}}
             }
             echo "</tr>";
         }

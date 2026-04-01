@@ -15,7 +15,7 @@
             <tbody>
               <tr class="hover:bg-grey-lighter">
                 <td class="py-4 px-6 border-b border-grey-light">
-                  <a href="http://localhost/calendar/create" class="text-left text-grey-dark">予定を追加</p>
+                  <a href="{{ route('calendar.create') }}" class="text-left text-grey-dark">予定を追加</p>
                 </td>
               </tr>
               @foreach ($schedules as $schedule)

@@ -1,17 +1,112 @@
-#カレンダーアプリ
-このアプリは多くの人とスケジュールを共有することができ、例えば遊びに行くのにその日程で都合のいい人を募集したり、バイトの募集をすることができたりする。
+# Calendar App
 
-#操作方法
-ダッシュボードとなっているカレンダーの日程をクリックすると、その日程の予定一覧を表示することができる。ちなみに予定が存在するとカレンダーが赤く表示される。予定を一覧では、予定を日付の早さの順で表示させることができる。それぞれの予定をクリックすると詳細画面に飛ぶことができる。予定を追加では、日付、タイトル、詳細を記述することで予定を追加することができる。Mypageでは自分の予定一覧を表示することができる。
+A shared schedule calendar application built with Laravel. Multiple users can view, create, and share events — useful for coordinating group plans, shift scheduling, and more.
 
-#工夫したところ
-与えられたデータからカレンダーを表示するプログラムを工夫した。
+## Features
 
-#大変だったところ
-カレンダーの詳細をクリックしたときの処理を行うためのリンクの指定が難しかった。
+- **Shared Calendar View** — Interactive monthly calendar with visual indicators for days that have events
+- **Event Management** — Create events with date, title, and description
+- **Event Details** — Click any event to view its full details
+- **My Page** — View all your own events in one place
+- **Authentication** — User registration and login powered by Laravel Breeze
 
-#今後追加していきたい機能
-指定したユーザーのみとスケジュールを共有できるようにするモードの追加（フォロー）。
+## Tech Stack
 
-#画面収録
-カレンダー - Google Chrome 2022-09-27 09-42-00.mp4
+- **Backend**: PHP 8.0+ / Laravel 9
+- **Authentication**: Laravel Breeze / Laravel Sanctum
+- **Frontend**: Blade templates, Tailwind CSS, Alpine.js
+- **Build**: Vite
+- **Database**: MySQL 8.0
+- **DevOps**: Docker (Laravel Sail)
+- **Testing**: PHPUnit
+
+## Prerequisites
+
+- PHP 8.0.2+
+- Composer
+- Node.js & npm
+- Docker & Docker Compose (for Docker setup)
+
+## Setup
+
+### Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/shutouyusei/calendar.git
+cd calendar
+
+# Install PHP dependencies
+composer install
+
+# Install Node dependencies
+npm install
+
+# Configure environment
+cp .env.example .env
+php artisan key:generate
+
+# Update .env with your database credentials, then run migrations
+php artisan migrate
+
+# Build frontend assets
+npm run build
+
+# Start the development server
+php artisan serve
+```
+
+The app will be available at `http://localhost:8000`.
+
+### Docker (Laravel Sail)
+
+```bash
+# Clone the repository
+git clone https://github.com/shutouyusei/calendar.git
+cd calendar
+
+# Install PHP dependencies (using a temporary container)
+docker run --rm -v $(pwd):/var/www/html -w /var/www/html laravelsail/php81-composer:latest composer install --ignore-platform-reqs
+
+# Configure environment
+cp .env.example .env
+
+# Start containers
+./vendor/bin/sail up -d
+
+# Generate application key
+./vendor/bin/sail artisan key:generate
+
+# Run database migrations
+./vendor/bin/sail artisan migrate
+
+# Install Node dependencies and build assets
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
+```
+
+The app will be available at `http://localhost`.
+
+phpMyAdmin is available at `http://localhost:8080` for database management.
+
+## Usage
+
+1. Register an account or log in
+2. The dashboard displays a monthly calendar — dates with events are highlighted in red
+3. Click a date to see all events scheduled for that day
+4. Use "Add Event" to create a new event with a date, title, and description
+5. Visit "My Page" to see all events you have created
+
+## Testing
+
+```bash
+# Local
+php artisan test
+
+# Docker
+./vendor/bin/sail test
+```
+
+## License
+
+This project uses the Laravel framework, which is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

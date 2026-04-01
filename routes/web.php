@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
 
@@ -33,8 +34,8 @@ Route::get('/dashboard', function () {
     return view('dashboard', ["da" => "2022-09"]);
 })->middleware(['auth'])->name('dashboard');
 
-Route::POST('/dashboard', function () {
+Route::POST('/dashboard', function (Request $request) {
 
-    return view('dashboard', ["da" => $_POST['Mo']]);
+    return view('dashboard', ["da" => $request->input('Mo')]);
 })->middleware(['auth']);
 require __DIR__ . '/auth.php';

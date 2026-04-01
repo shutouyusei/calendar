@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Calendar;
 use Illuminate\Console\Scheduling\Schedule;
 
-class IndexCotroller extends Controller
+class IndexController extends Controller
 {
     public function show($clickdate)
     {

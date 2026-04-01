@@ -65,7 +65,8 @@ class CalendarController extends Controller
      */
     public function show($id)
     {
-        $schedule = Calendar::find($id);
+        $schedule = Calendar::findOrFail($id);
+        $this->authorize('view', $schedule);
         return view('calendar.show', compact('schedule'));
     }
 
@@ -77,7 +78,8 @@ class CalendarController extends Controller
      */
     public function edit($id)
     {
-        $schedule = Calendar::find($id);
+        $schedule = Calendar::findOrFail($id);
+        $this->authorize('update', $schedule);
         return view('calendar.edit', compact('schedule'));
     }
 
@@ -90,6 +92,8 @@ class CalendarController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $schedule = Calendar::findOrFail($id);
+        $this->authorize('update', $schedule);
         //
     }
 
@@ -101,7 +105,9 @@ class CalendarController extends Controller
      */
     public function destroy($id)
     {
-        $result = Calendar::find($id)->delete();
+        $schedule = Calendar::findOrFail($id);
+        $this->authorize('delete', $schedule);
+        $schedule->delete();
         return redirect()->route('calendar.index');
     }
     public function mydata()

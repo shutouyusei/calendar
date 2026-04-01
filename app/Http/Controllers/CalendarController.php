@@ -92,9 +92,6 @@ class CalendarController extends Controller
      */
     public function update(Request $request, $id)
     {
-<<<<<<< Updated upstream
-        //
-=======
         $validator = Validator::make($request->all(), [
             'date' => 'required',
             'title' => 'required',
@@ -116,7 +113,6 @@ class CalendarController extends Controller
         $schedule->save();
 
         return redirect()->route('calendar.index')->with('success', '予定を更新しました');
->>>>>>> Stashed changes
     }
 
     /**

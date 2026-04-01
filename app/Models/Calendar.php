@@ -13,6 +13,9 @@ class Calendar extends Model
         'created_at',
         'updated_at',
     ];
+    protected $casts = [
+        'date' => 'date',
+    ];
 
     public static function getAllOrderByDate()
     {

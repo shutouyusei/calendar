@@ -6,29 +6,27 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:w-8/12 md:w-1/2 lg:w-5/12">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('calendar.store') }}" method='POST'>
-                        @csrf   
+                    @include('common.errors')
+                    <form action="{{ route('calendar.store') }}" method="POST">
+                        @csrf
                         <div class="flex flex-col mb-4">
-                            <input type='date' name='date'>
-                        </div>      
-                        <div class='flex flex-col mb-4'>
-                            <input type='text' name='title' placeholder="タイトル">
-                        </div>                    
-                        <div class="flex flex-col mb-4">
-                            <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="description">詳細</label>
-                                <textarea
-                                name='description'
-                                rows='3'
-                                class="focus:ring-blue-400 focus:border-blue-400 mt-1 block
-                                w-full sm:text-sm border border-gray-300 rounded-md p-2"
-                                placeholder="詳細を入力"></textarea>
+                            <label class="mb-2 font-bold text-sm text-gray-700" for="date">日付</label>
+                            <input type="date" name="date" id="date" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
-                    <button type="submit" class="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
-                        予定を追加
-                </button>
+                        <div class="flex flex-col mb-4">
+                            <label class="mb-2 font-bold text-sm text-gray-700" for="title">タイトル</label>
+                            <input type="text" name="title" id="title" placeholder="タイトル" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="flex flex-col mb-4">
+                            <label class="mb-2 font-bold text-sm text-gray-700" for="description">詳細</label>
+                            <textarea name="description" id="description" rows="3" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="詳細を入力"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-gray-800 rounded-md shadow-lg focus:outline-none focus:ring ring-gray-300 hover:bg-gray-700 transition ease-in-out duration-150">
+                            予定を追加
+                        </button>
                     </form>
                 </div>
             </div>

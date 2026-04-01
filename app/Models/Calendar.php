@@ -13,10 +13,22 @@ class Calendar extends Model
         'created_at',
         'updated_at',
     ];
-    public static function getAllOrderByUpdated_at()
+
+    public static function getAllOrderByDate()
     {
         return self::orderBy('date', 'asc')->get();
     }
+
+    public function scopeByUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    public function scopeForDate($query, $date)
+    {
+        return $query->where('date', $date);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

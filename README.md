@@ -1,5 +1,7 @@
 # Calendar App
 
+English | [日本語](README.ja.md)
+
 A shared schedule calendar application built with Laravel. Multiple users can share schedules, check dates, add events, and view event details.
 
 ## Screenshots

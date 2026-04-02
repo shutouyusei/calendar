@@ -2,6 +2,20 @@
 
 A shared schedule calendar application built with Laravel. Multiple users can share schedules, check dates, add events, and view event details.
 
+## Screenshots
+
+| Top Page | Calendar |
+|:---:|:---:|
+| ![Top Page](docs/screenshots/home.png) | ![Calendar](docs/screenshots/calendar.png) |
+
+| Date View | Event List |
+|:---:|:---:|
+| ![Date View](docs/screenshots/calendar_date.png) | ![Event List](docs/screenshots/event_list.png) |
+
+| Create Event | My Page |
+|:---:|:---:|
+| ![Create Event](docs/screenshots/event_create.png) | ![My Page](docs/screenshots/mypage.png) |
+
 ## Features
 
 - **Shared Calendar** — View a monthly calendar with highlighted dates that have events
@@ -20,39 +34,9 @@ A shared schedule calendar application built with Laravel. Multiple users can sh
 
 ## Prerequisites
 
-- PHP 8.0.2+
-- Composer
-- Node.js & npm
-- Docker & Docker Compose (for Docker setup)
+- Docker & Docker Compose
 
 ## Setup
-
-### Local Development
-
-```bash
-# Clone the repository
-git clone https://github.com/shutouyusei/calendar.git
-cd calendar
-
-# Install dependencies
-composer install
-npm install
-
-# Environment configuration
-cp .env.example .env
-php artisan key:generate
-
-# Configure your database in .env, then run migrations
-php artisan migrate
-
-# Build frontend assets
-npm run build
-
-# Start the development server
-php artisan serve
-```
-
-### Docker (Laravel Sail)
 
 ```bash
 # Clone the repository
@@ -60,19 +44,21 @@ git clone https://github.com/shutouyusei/calendar.git
 cd calendar
 
 # Install Composer dependencies (using a temporary container)
-docker run --rm -v $(pwd):/app composer install
+docker run --rm -v $(pwd):/app composer:2.5 install --ignore-platform-reqs
 
 # Environment configuration
 cp .env.example .env
 
-# Start Sail
+# Build and start containers
+./vendor/bin/sail build
 ./vendor/bin/sail up -d
 
 # Generate application key
 ./vendor/bin/sail artisan key:generate
 
-# Run migrations
+# Run migrations and seed demo data
 ./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed
 
 # Install and build frontend assets
 ./vendor/bin/sail npm install
@@ -81,22 +67,26 @@ cp .env.example .env
 
 The application will be available at `http://localhost`.
 
+### Demo Accounts
+
+| Name | Email | Password |
+|------|-------|----------|
+| Alice | alice@example.com | password |
+| Bob | bob@example.com | password |
+| Charlie | charlie@example.com | password |
+
 ## Usage
 
-1. Register an account or log in
-2. The dashboard displays a monthly calendar — dates with events are highlighted in red
+1. Log in with a demo account or register a new one
+2. The dashboard displays a monthly calendar — dates with events are highlighted
 3. Click a date to view all events scheduled for that day
-4. Use the "Add Event" form to create new events with a date, title, and description
+4. Use "予定を追加" to create new events with a date, title, and description
 5. Click an event to view its details, edit, or delete it
-6. Visit "My Page" to see all your events in one place
+6. Visit "Mypage" to see only your own events
 
 ## Testing
 
 ```bash
-# Local
-php artisan test
-
-# With Sail
 ./vendor/bin/sail test
 ```
 

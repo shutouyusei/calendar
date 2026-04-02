@@ -51,7 +51,7 @@
                         $da = $dat;
                         if ($da < 10) { $da = "0" . $da; }
                         $clickdate = $date . "-" . $da;
-                        $hasSchedule = DB::table('calendars')->where('date', '=', $clickdate)->count() > 0;
+                        $hasSchedule = DB::table('calendars')->whereDate('date', $clickdate)->count() > 0;
                     @endphp
                     @if ($hasSchedule)
                         <td class="py-2 bg-indigo-100 rounded">

@@ -31,7 +31,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
 
-    return view('dashboard', ["da" => "2022-09"]);
+    return view('dashboard', ["da" => now()->format('Y-m')]);
 })->middleware(['auth'])->name('dashboard');
 
 Route::POST('/dashboard', function (Request $request) {
